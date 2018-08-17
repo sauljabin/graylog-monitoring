@@ -6,6 +6,7 @@ This is not for production, it is to test the integration.
 ### Links
 
 - Graylog Docker [http://docs.graylog.org/en/latest/pages/installation/docker.html](http://docs.graylog.org/en/latest/pages/installation/docker.html)
+- GELF [https://github.com/mp911de/logstash-gelf/](https://github.com/mp911de/logstash-gelf/)
 
 ### Getting started
 

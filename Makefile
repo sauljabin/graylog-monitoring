@@ -1,4 +1,7 @@
-build:
+app:
+	@ cd logs-generator && ./gradlew clean install -q
+
+build: app
 	@ docker-compose build
 
 up:

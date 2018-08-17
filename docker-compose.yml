@@ -25,7 +25,7 @@ services:
       - 9300:9300
 
   graylog:
-    image: graylog/graylog:2.4.0-1
+    image: graylog/graylog:2.4.6-1
     environment:
       - GRAYLOG_PASSWORD_SECRET=password_password
       - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
@@ -35,13 +35,22 @@ services:
       - elasticsearch
     networks:
       - graylog
-    restart: always    
+    restart: always
     ports:
       - 9000:9000
       - 514:514
       - 514:514/udp
       - 12201:12201
       - 12201:12201/udp
+
+  app:
+    build:
+      context: logs-generator/
+    restart: always
+    networks:
+      - graylog
+    depends_on:
+      - graylog
 
 networks:
   graylog:
