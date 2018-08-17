@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  mongo:
+    image: mongo:3
+    networks:
+      - graylog
+    restart: always
+    ports:
+      - 27017:27017
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - network.host=0.0.0.0
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    networks:
+      - graylog
+    restart: always
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  graylog:
+    image: graylog/graylog:2.4.0-1
+    environment:
+      - GRAYLOG_PASSWORD_SECRET=password_password
+      - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+      - GRAYLOG_WEB_ENDPOINT_URI=http://127.0.0.1:9000/api
+    depends_on:
+      - mongo
+      - elasticsearch
+    networks:
+      - graylog
+    restart: always    
+    ports:
+      - 9000:9000
+      - 514:514
+      - 514:514/udp
+      - 12201:12201
+      - 12201:12201/udp
+
+networks:
+  graylog:
+    driver: bridge
